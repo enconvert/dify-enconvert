@@ -24,8 +24,13 @@ Dify Marketplace → search **EnConvert**, or **Plugins → Install plugin → G
 The two convert tools take a **Dify file** — an uploaded file, or a file variable from an earlier
 workflow node. The plugin uploads its bytes to EnConvert as multipart `file` and returns a signed
 download URL for the result. That result URL, like any perceive screenshot/PDF URL, must be fetched
-**without** the API key. The plugin never fetches a user-supplied URL itself: every URL you pass to
-Perceive, Discover or Extract Structured is fetched by EnConvert's servers, not by your Dify host.
+**without** the API key. Perceive inlines its text outputs (markdown, cleaned/raw HTML) into the tool
+result by reading that signed URL, up to 256 KB, so an agent gets the page itself rather than a link it
+cannot open; anything larger, or binary, stays a link.
+
+The plugin never fetches a user-supplied URL. Every URL you pass to Perceive, Discover or Extract
+Structured is fetched by EnConvert's servers, not by your Dify host. The only URLs the plugin itself
+reads are the signed artifact URLs the API hands back.
 
 ## Authentication
 

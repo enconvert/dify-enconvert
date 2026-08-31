@@ -45,6 +45,13 @@ class DistillTool(Tool):
 
         result = post_json(api_key, "/v2/distill", payload)
         yield self.create_json_message(result)
+        tiers = sorted({
+            item.get("extraction_tier")
+            for item in result.get("results") or []
+            if item.get("extraction_tier")
+        })
         yield self.create_text_message(
-            f"Extraction complete (tier: {result.get('extraction_tier')})."
+            f"Extracted {result.get('completed', 0)}/{result.get('total', 0)} URL(s)"
+            + (f" (tier: {', '.join(tiers)})" if tiers else "")
+            + "."
         )

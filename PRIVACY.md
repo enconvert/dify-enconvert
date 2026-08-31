@@ -11,8 +11,10 @@ When you run a tool, the plugin sends to `https://api.enconvert.com`:
   you or your agent pass — needed to perform the requested conversion or read.
 - For the two convert tools, the bytes of the file you wire into the tool.
 
-`https://api.enconvert.com` is the only host the plugin contacts. URLs you pass to Perceive, Discover
-or Extract Structured are fetched by EnConvert's servers, never by the Dify host running this plugin.
+The plugin contacts `https://api.enconvert.com` and, to inline Perceive's text output, the signed
+storage URL that API returns (`nyc3.digitaloceanspaces.com`). Both are declared in `manifest.yaml`
+under `network.domains`. URLs you pass to Perceive, Discover or Extract Structured are fetched by
+EnConvert's servers, never by the Dify host running this plugin.
 
 ## What it collects
 

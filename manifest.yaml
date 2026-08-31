@@ -34,6 +34,7 @@ network:
   domains:
     - api.enconvert.com
     - www.enconvert.com
+    - nyc3.digitaloceanspaces.com
 privacy: PRIVACY.md
 contact: support@enconvert.com
 repo: https://github.com/enconvert/dify-enconvert

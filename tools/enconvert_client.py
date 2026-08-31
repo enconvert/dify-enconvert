@@ -12,6 +12,8 @@ import requests
 
 BASE_URL = "https://api.enconvert.com"
 TIMEOUT = 120
+# Text artifacts up to this size are inlined; bigger ones stay a link.
+ARTIFACT_MAX_BYTES = 256 * 1024
 
 
 def post_json(api_key: str, path: str, payload: dict) -> dict:
@@ -23,6 +25,21 @@ def post_json(api_key: str, path: str, payload: dict) -> dict:
     )
     resp.raise_for_status()
     return resp.json()
+
+
+def fetch_text(url: str) -> str | None:
+    """Read a signed artifact URL the API just returned, so the agent gets the
+    page instead of a link it cannot open. None when it is too big or unreadable
+    — the caller falls back to the link."""
+    try:
+        resp = requests.get(url, timeout=TIMEOUT, stream=True)
+        resp.raise_for_status()
+        content = resp.raw.read(ARTIFACT_MAX_BYTES + 1, decode_content=True)
+    except requests.RequestException:
+        return None
+    if len(content) > ARTIFACT_MAX_BYTES:
+        return None
+    return content.decode("utf-8", errors="replace")
 
 
 def file_part(file: Any) -> tuple[str, bytes]:
