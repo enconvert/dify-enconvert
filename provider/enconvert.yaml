@@ -1,0 +1,32 @@
+identity:
+  author: enconvert
+  name: enconvert
+  label:
+    en_US: EnConvert
+  description:
+    en_US: Render web pages and files into agent-ready data with a render_quality honesty score on every read.
+  icon: icon.svg
+  tags:
+    - search
+    - utilities
+credentials_for_provider:
+  enconvert_api_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: EnConvert API Key
+    placeholder:
+      en_US: sk_...
+    help:
+      en_US: Use a private API key (prefix sk_) from your EnConvert dashboard. Public pk_ keys are rejected.
+    url: https://www.enconvert.com/dashboard/api-keys
+tools:
+  - tools/perceive.yaml
+  - tools/search.yaml
+  - tools/discover.yaml
+  - tools/distill.yaml
+  - tools/convert_markdown.yaml
+  - tools/convert_pdf.yaml
+extra:
+  python:
+    source: provider/enconvert.py

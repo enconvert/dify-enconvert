@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="EnConvert">
+  <rect width="128" height="128" rx="28" fill="#4f46e5"/>
+  <g fill="#ffffff">
+    <rect x="42" y="38" width="16" height="52" rx="3"/>
+    <rect x="42" y="38" width="44" height="15" rx="3"/>
+    <rect x="42" y="57" width="36" height="14" rx="3"/>
+    <rect x="42" y="75" width="44" height="15" rx="3"/>
+  </g>
+</svg>

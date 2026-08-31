@@ -1,0 +1,135 @@
+identity:
+  author: enconvert
+  name: search
+  label:
+    en_US: Web Search
+description:
+  human:
+    en_US: Search the web (web, news, images, scholar, patents or maps) and return ranked results.
+  llm: Search the web with EnConvert and return a ranked list of results (title, url, snippet, position). Use this to find pages relevant to a query.
+parameters:
+  - name: query
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Query
+    human_description:
+      en_US: The search query.
+    llm_description: The search query string. Required.
+  - name: category
+    type: select
+    required: false
+    default: web
+    form: llm
+    label:
+      en_US: Category
+    human_description:
+      en_US: Which search index to query.
+    llm_description: The search category. One of web, news, images, scholar, patents, maps. Defaults to web.
+    options:
+      - value: web
+        label:
+          en_US: Web
+      - value: news
+        label:
+          en_US: News
+      - value: images
+        label:
+          en_US: Images
+      - value: scholar
+        label:
+          en_US: Scholar
+      - value: patents
+        label:
+          en_US: Patents
+      - value: maps
+        label:
+          en_US: Maps
+  - name: num_results
+    type: number
+    required: false
+    default: 10
+    form: form
+    label:
+      en_US: Number of Results
+    human_description:
+      en_US: How many results to return.
+    llm_description: Maximum number of results to return. Defaults to 10.
+  - name: country
+    type: string
+    required: false
+    form: form
+    label:
+      en_US: Country
+    human_description:
+      en_US: Two-letter country code for geo-targeted results.
+    llm_description: Optional ISO country code (e.g. US) to geo-target results.
+    placeholder:
+      en_US: US
+  - name: locale
+    type: string
+    required: false
+    form: form
+    label:
+      en_US: Locale
+    human_description:
+      en_US: Language/locale code for results.
+    llm_description: Optional locale code (e.g. en) for result language.
+    placeholder:
+      en_US: en
+  - name: location
+    type: string
+    required: false
+    form: form
+    label:
+      en_US: Location
+    human_description:
+      en_US: Location string for geo-targeted results.
+    llm_description: Optional location string (e.g. San Francisco, California, United States).
+  - name: time_filter
+    type: select
+    required: false
+    form: form
+    label:
+      en_US: Time Filter
+    human_description:
+      en_US: Restrict results to a recent time window.
+    llm_description: Optional recency filter. One of hour, day, week, month, year.
+    options:
+      - value: hour
+        label:
+          en_US: Past Hour
+      - value: day
+        label:
+          en_US: Past Day
+      - value: week
+        label:
+          en_US: Past Week
+      - value: month
+        label:
+          en_US: Past Month
+      - value: year
+        label:
+          en_US: Past Year
+  - name: page
+    type: number
+    required: false
+    form: form
+    label:
+      en_US: Page
+    human_description:
+      en_US: Result page number for pagination.
+    llm_description: Optional 1-based page number for paginating results.
+  - name: autocorrect
+    type: boolean
+    required: false
+    form: form
+    label:
+      en_US: Autocorrect
+    human_description:
+      en_US: Let the search engine correct spelling in the query.
+    llm_description: When true, allow the search engine to autocorrect the query spelling.
+extra:
+  python:
+    source: tools/search.py

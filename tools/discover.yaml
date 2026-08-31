@@ -1,0 +1,100 @@
+identity:
+  author: enconvert
+  name: discover
+  label:
+    en_US: Discover URLs
+description:
+  human:
+    en_US: List the URLs on a site via sitemap, crawl or both — without rendering the pages.
+  llm: Discover the URLs on a website using EnConvert (sitemap, crawl or hybrid) and return the list of URLs. Use this to map a site before perceiving or distilling individual pages.
+parameters:
+  - name: url
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: URL
+    human_description:
+      en_US: The site or page URL to discover URLs from.
+    llm_description: The absolute URL to start discovery from. Required.
+  - name: mode
+    type: select
+    required: false
+    default: hybrid
+    form: form
+    label:
+      en_US: Mode
+    human_description:
+      en_US: How to discover URLs.
+    llm_description: Discovery mode. One of sitemap, crawl, hybrid. Defaults to hybrid.
+    options:
+      - value: sitemap
+        label:
+          en_US: Sitemap
+      - value: crawl
+        label:
+          en_US: Crawl
+      - value: hybrid
+        label:
+          en_US: Hybrid
+  - name: max_urls
+    type: number
+    required: false
+    default: 100
+    form: form
+    label:
+      en_US: Max URLs
+    human_description:
+      en_US: Maximum number of URLs to return.
+    llm_description: Maximum number of URLs to return. Defaults to 100.
+  - name: max_depth
+    type: number
+    required: false
+    default: 2
+    form: form
+    label:
+      en_US: Max Depth
+    human_description:
+      en_US: Maximum crawl depth from the starting URL.
+    llm_description: Maximum crawl depth from the starting URL. Defaults to 2.
+  - name: include_patterns
+    type: string
+    required: false
+    form: form
+    label:
+      en_US: Include Patterns
+    human_description:
+      en_US: Comma-separated glob/regex patterns; only matching URLs are kept.
+    llm_description: Optional comma-separated patterns; only URLs matching one of them are kept.
+  - name: exclude_patterns
+    type: string
+    required: false
+    form: form
+    label:
+      en_US: Exclude Patterns
+    human_description:
+      en_US: Comma-separated glob/regex patterns; matching URLs are dropped.
+    llm_description: Optional comma-separated patterns; URLs matching any of them are dropped.
+  - name: same_domain_only
+    type: boolean
+    required: false
+    default: true
+    form: form
+    label:
+      en_US: Same Domain Only
+    human_description:
+      en_US: Restrict discovery to the starting URL's domain.
+    llm_description: When true (default), only return URLs on the same domain as the start URL.
+  - name: respect_robots
+    type: boolean
+    required: false
+    default: false
+    form: form
+    label:
+      en_US: Respect robots.txt
+    human_description:
+      en_US: Honor the site's robots.txt rules during discovery.
+    llm_description: When true, honor robots.txt. Defaults to false.
+extra:
+  python:
+    source: tools/discover.py

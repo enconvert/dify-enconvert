@@ -1,0 +1,9 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.difypkg
+*.pem
+.DS_Store
+Thumbs.db

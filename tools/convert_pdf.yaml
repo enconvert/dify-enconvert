@@ -1,0 +1,22 @@
+identity:
+  author: enconvert
+  name: convert_pdf
+  label:
+    en_US: Convert File to PDF
+description:
+  human:
+    en_US: Convert an uploaded file (document, spreadsheet, presentation, image, HTML or text) into PDF.
+  llm: Convert an uploaded file to PDF with EnConvert. Returns a download URL for the PDF result.
+parameters:
+  - name: file
+    type: file
+    required: true
+    form: llm
+    label:
+      en_US: File
+    human_description:
+      en_US: The file to convert. Wire in an uploaded file or a file variable from an earlier node.
+    llm_description: The file to convert. Required.
+extra:
+  python:
+    source: tools/convert_pdf.py

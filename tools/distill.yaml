@@ -1,0 +1,70 @@
+identity:
+  author: enconvert
+  name: distill
+  label:
+    en_US: Extract Structured
+description:
+  human:
+    en_US: Extract structured data matching a JSON schema from one or more pages, or from a site crawl.
+  llm: Extract structured data with EnConvert. Provide a schema and exactly one source — either a list of URLs or a discover_from_url to crawl. Returns the extracted data. Use this when you need specific fields (prices, names, dates) rather than raw page content.
+parameters:
+  - name: schema
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Schema
+    human_description:
+      en_US: 'A JSON object: either a JSON-schema {"type":"object","properties":{...}} or a flat {"field":"description"} map.'
+    llm_description: A JSON object describing the fields to extract. Either a JSON schema ({"type":"object","properties":{...}}) or a flat map of field name to natural-language description ({"price":"the product price","title":"the product title"}). Required. Pass valid JSON.
+    placeholder:
+      en_US: '{"title": "the page title", "price": "the product price"}'
+  - name: urls
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: URLs
+    human_description:
+      en_US: Comma-separated page URLs to extract from (max 50). Provide this OR Discover From URL, not both.
+    llm_description: Comma-separated list of page URLs to extract from (maximum 50). Provide exactly one of urls or discover_from_url.
+  - name: discover_from_url
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Discover From URL
+    human_description:
+      en_US: Crawl this site and extract from the pages found. Provide this OR URLs, not both.
+    llm_description: A single URL to crawl and extract from. Provide exactly one of urls or discover_from_url.
+  - name: discover_mode
+    type: select
+    required: false
+    form: form
+    label:
+      en_US: Discover Mode
+    human_description:
+      en_US: How to discover pages when using Discover From URL.
+    llm_description: Discovery mode when discover_from_url is set. One of sitemap, crawl, hybrid.
+    options:
+      - value: sitemap
+        label:
+          en_US: Sitemap
+      - value: crawl
+        label:
+          en_US: Crawl
+      - value: hybrid
+        label:
+          en_US: Hybrid
+  - name: discover_max_pages
+    type: number
+    required: false
+    form: form
+    label:
+      en_US: Discover Max Pages
+    human_description:
+      en_US: Maximum pages to crawl when using Discover From URL.
+    llm_description: Maximum number of pages to crawl when discover_from_url is set.
+extra:
+  python:
+    source: tools/distill.py

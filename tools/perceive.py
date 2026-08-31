@@ -1,0 +1,34 @@
+from collections.abc import Generator
+from typing import Any
+
+from dify_plugin import Tool
+from dify_plugin.entities.tool import ToolInvokeMessage
+
+from .enconvert_client import csv_list, post_json
+
+# Outputs that come back as 15-minute signed download URLs rather than inline.
+DOWNLOAD_OUTPUTS = {"screenshot", "screenshot_full_page", "pdf", "html_cleaned", "html_raw"}
+
+
+class PerceiveTool(Tool):
+    def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage, None, None]:
+        api_key = self.runtime.credentials["enconvert_api_key"]
+        payload: dict[str, Any] = {"url": tool_parameters["url"]}
+        outputs = csv_list(tool_parameters.get("outputs"))
+        if outputs:
+            payload["outputs"] = outputs
+        if tool_parameters.get("only_main_content") is not None:
+            payload["only_main_content"] = tool_parameters["only_main_content"]
+
+        result = post_json(api_key, "/v2/perceive", payload)
+        yield self.create_json_message(result)
+
+        quality = result.get("render_quality")
+        outs = result.get("outputs") or {}
+        yield self.create_text_message(
+            f"Perceived {payload['url']} — render_quality {quality} "
+            f"(0 = blocked/empty, 1 = clean). Outputs: {', '.join(outs) or 'none'}."
+        )
+        for name, data in outs.items():
+            if name in DOWNLOAD_OUTPUTS and isinstance(data, dict) and data.get("url"):
+                yield self.create_link_message(data["url"])
