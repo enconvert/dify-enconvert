@@ -30,6 +30,11 @@ tags:
   - search
   - utilities
   - productivity
+network:
+  domains:
+    - api.enconvert.com
+    - www.enconvert.com
 privacy: PRIVACY.md
+contact: support@enconvert.com
 repo: https://github.com/enconvert/dify-enconvert
 verified: false
