@@ -26,9 +26,16 @@ class PerceiveTool(Tool):
 
         quality = result.get("render_quality")
         outs = result.get("outputs") or {}
+        # Billing contract: a detected block is a 200 with empty outputs and no charge.
+        flags = []
+        if result.get("is_blocked") is True:
+            flags.append("BLOCKED: content-free page, do not treat as content")
+        if result.get("billed") is False:
+            flags.append("not billed")
+        suffix = f" {'; '.join(flags)}." if flags else ""
         yield self.create_text_message(
             f"Perceived {payload['url']} — render_quality {quality} "
-            f"(0 = blocked/empty, 1 = clean). Outputs: {', '.join(outs) or 'none'}."
+            f"(0 = blocked/empty, 1 = clean). Outputs: {', '.join(outs) or 'none'}.{suffix}"
         )
         for name, data in outs.items():
             url = data.get("url") if isinstance(data, dict) else None
